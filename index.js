@@ -1,17 +1,20 @@
 require('dotenv').config();
 const Koa = require('koa');
 const Router = require('@koa/router');
+const bodyParser = require('koa-bodyparser');
 const { MongoClient, ObjectId } = require('mongodb');
 
 const app = new Koa();
 const router = new Router();
 let db;
 
-MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017')
+MongoClient.connect(process.env.MONGODB_URI)
   .then(client => {
     db = client.db('messaging-app');
     console.log('Connected to MongoDB');
   });
+
+app.use(bodyParser());
 
 // Routes
 router.get('/', (ctx) => ctx.body = { message: 'API running' });
