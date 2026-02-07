@@ -80,6 +80,7 @@ If all nodes go down, none would be able to go up (since it needs to connect to 
 
 ## Sharding
 Supports sharding out of the box. Requires mongos server + 3 config serverers (mongod) + shardede replicas.
+Sharding start at 64MB of data by default. 
 
 # Redis
 - Strings (set,get, incr, decr,append), List (lpush, rpush, lpop, rpop, lrange), Sets (add, delete, emember, union). HashMap (hset, hget, hincrby). Streams
