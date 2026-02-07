@@ -23,8 +23,10 @@ MongoClient.connect(process.env.MONGODB_URI)
     }
     
     if (!collectionNames.includes('messages')) {
-      await db.createCollection('messages');
+      const messages = await db.createCollection('messages');
       console.log('Created messages collection');
+
+      await messages.createIndex('userId');
     }
   });
 
@@ -58,6 +60,10 @@ router.post('/users', async (ctx) => {
 
 router.get('/users/:id/messages', async (ctx) => {
   ctx.body = await db.collection('messages').find({ userId: new ObjectId(ctx.params.id) }).toArray();
+});
+
+router.get('/messages', async (ctx) => {
+  ctx.body = await db.collection('messages').find({  }).toArray();
 });
 
 router.post('/messages', async (ctx) => {
