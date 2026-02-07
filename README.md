@@ -28,7 +28,7 @@ EXPLAIN Select * from ...
 # Cassandra
 
 ## Characteristics
- - Use when REALLY high throughtput (100k RPS writes). Write >> read. Predictable QUERIES from the POC. E.g. Activity feeds, messaging, event logging. Do not use when flex queries or consistency required.
+ - Use when REALLY high throughtput (100k RPS writes). Write >> read. Predictable QUERIES from the POC (less flexible, dev-friendly). E.g. Activity feeds, messaging, event logging. Do not use when flex queries or consistency required.
  - Doesn't support transaction
  - required huge denormalization (comparing to mongo for example, since no joins)
  - Wide column based storage (stores data in rows, BUT each rows has any amount of columns and rows are distributed)
@@ -55,6 +55,7 @@ Supports sharding out of the box. Uses [consistent hashing](https://en.wikipedia
 # MongoDB
 
 ## Characteristics
+- more developer friendly and flexible than cassandra.
 - Eats memory like crazy if not limit it. WiredTiger (mongos storage engine) consumes 50% of all system meemory.
 - Stores data in documents (I can still consider row based if rows store complex data like objects and array with WiredTiger compressed documents BSON)
 - Document
