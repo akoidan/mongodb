@@ -1,5 +1,6 @@
 # Postgres
 ## Characteristics
+- Structured Query Language (SQL)
 - USE when: Default choice on < 10k RPS.
 - ROW based storage (stores data in rows)
 - CAP: AC (Strong consistent. availability if Primary is reachable. On network partition connection returns errors)
@@ -29,6 +30,7 @@ EXPLAIN Select * from ...
 # Cassandra
 
 ## Characteristics
+ - Cassandra Query Language (CQL),
  - Wide column based storage (stores data in rows, BUT each rows has any amount of columns and rows are distributed)
  - Use when REALLY high throughtput (100k RPS writes). Write >> read. Predictable QUERIES from the POC (less flexible, dev-friendly). E.g. Activity feeds, messaging, event logging. Do not use when flex queries or consistency required.
  - Doesn't support transaction
@@ -56,6 +58,7 @@ Supports sharding out of the box. Uses [consistent hashing](https://en.wikipedia
 # MongoDB
 
 ## Characteristics
+- MongoDB Query Language (MQL)
 - Document 
 - B tree indexs
 - more developer friendly and flexible than cassandra.
@@ -113,6 +116,19 @@ Sharding start at 64MB of data by default.
 
 # TIPS
 
+
+## Indexes
+1) DEFAULT: B-tree (be-tree, not binary). Tree where each node is an array of pointers to a node. most popular. Since it's ordered supprots operations like
+ - select * from a where a.b = 30; 
+ - select * from a where a.b > 30; 
+2) INMEMORY: Hash index - usually used only in RAM store (like redis) since doesnt' support all operation and do not benefit from sequantial storage block
+3) LOCATION: Geospatial Indexes
+- Select * from location where lat > 100 and lat < 400 and long > 20 and long < 200
+3a) geohasing redis
+3b) quadtrees (split each square by quad, if number of items > k). Rarely uses
+3c) Rtree - PostGis (psql)
+4) STRING: Inverted index (for string, map each word in each string to a key , and value would be pointer to all strings in occurs)
+
 HAPPY PATH
 
 ## CDC
@@ -128,7 +144,7 @@ NOSQL - is query driven (storage is cheap, duplication is fine)
 These are the qualities of the database that we need.
 These databases satisfity it... Most time debates on SQL vs NoSQL doesnt matter. E.g. DynamoDB can have ACID properties
 
-
+## DBs to learn
 
 QUESTDB
 MEMGRAPH
@@ -137,7 +153,7 @@ COCKROACHDB
 SCylla
 
 
-# How to migrate from 1 DB set to another
+## How to migrate from 1 DB set to another
 1) Define Application requirements:  P99 Read < 30ms, Peak throughput 150'000 ops/s. Read/write ratio: 55/45
 2) Define Infra requirements: Cloud provider, scalability, replication factor.
 3) Create POC with test data to verify new DB support it
